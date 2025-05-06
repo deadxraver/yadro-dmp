@@ -2,7 +2,6 @@
 #include <linux/module.h>
 
 int init_module(void) {
-  int* test;
   printk(KERN_INFO "Hello lol\n");
   return 0;
 }
