@@ -6,9 +6,15 @@
 sudo apt-get install build-essential kmod
 ```
 
-## Build & insert
+## Build & Insert
 
 ```bash
 make
-sudo insmod dmp.ko
+```
+
+## Remove & Clean
+
+```bash
+make clean
+make remove
 ```
