@@ -1,5 +1,7 @@
 # User Guide (Ubuntu/Debian)
 
+**!!THIS IS NOT FINAL VERSION, USAGE ON REAL MACHINE IS HIGHLY NOT RECOMMENDED!!**
+
 ## Install packages
 
 ```bash
