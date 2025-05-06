@@ -6,6 +6,7 @@
 
 static int dmp_ctr(struct dm_target* ti, unsigned int argc, char** argv);
 static int dmp_map(struct dm_target* ti, struct bio* bio);
+static void dmp_dtr(struct dm_target* ti);
 
 static struct kset* dmp_kset;
 
@@ -75,6 +76,6 @@ static struct target_type dmp_target = {
     .version = {1, 0, 0},
     .module = THIS_MODULE,
     .ctr = dmp_ctr,
-    .dtr = NULL,
+    .dtr = dmp_dtr,
     .map = dmp_map,
 };

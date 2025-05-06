@@ -42,11 +42,31 @@ error:
 }
 
 static int dmp_map(struct dm_target* ti, struct bio* bio) {
-  // TODO:
-  return 0;
+  struct dmp_device* ddev = ti->private;
+
+  if (bio_op(bio) == REQ_OP_READ) {
+    atomic_inc(&ddev->info.read_requests);
+    atomic_add(bio->bi_iter.bi_size, &ddev->info.read_size);
+  } else if (bio_op(bio) == REQ_OP_WRITE) {
+    atomic_inc(&ddev->info.write_requests);
+    atomic_add(bio->bi_iter.bi_size, &ddev->info.write_size);
+  }
+
+  bio_set_dev(bio, ddev->dev->bdev);
+  submit_bio_noacct(bio);
+  return DM_MAPIO_SUBMITTED;
+}
+
+static void dmp_dtr(struct dm_target* ti) {
+  struct dmp_device* ddev = ti->private;
+  dm_put_device(ti, ddev->dev);
+  kobject_put(&ddev->kobj);
+  kfree(ddev);
 }
 
 void cleanup_module(void) {
+  dm_unregister_target(&dmp_target);
+  kset_unregister(dmp_kset);
   printk(KERN_INFO "dmp drop\n");
 }
 
